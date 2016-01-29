@@ -1,0 +1,1 @@
+This is a program to convert mqtt to be able to send over a RF 433MHZ link, typical for enable NEXA modules
