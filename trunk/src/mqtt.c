@@ -6,6 +6,12 @@
 #include <memory.h>
 #include <termios.h>
 
+/*DEFINE DECLARE*/
+#define 	PORT1_ON		"A1E"
+#define 	PORT1_OFF		"A0E"
+
+#define 	NUM_OF_OUTPUTS	10
+
 /*FUNCTIONS DECLARE*/
 
 int OpenToSerial(const char* ttyDev);
@@ -309,124 +315,74 @@ void my_log_callback(struct mosquitto *mosq, void *userdata, int level, const ch
 int main(int argc, char *argv[])
 {
 
-//    int fd;
-//    fd=OpenToSerial(argv[1]);
-//    usleep(50000);
-//    WriteToSerial(fd, argv[2]);
-//    usleep(600000);
-//    ReadFromSerial(fd);
-//    close(fd);
-
 	int i;
+	int count = 0;					//Used for counting
 	char *host = "localhost";
 	int port = 1883;
 	int keepalive = 60;
 	bool clean_session = true;
-	//struct mosquitto *mosq = NULL;
-	struct mosquitto *output1 = NULL;
-	struct mosquitto *output2 = NULL;
-	struct mosquitto *output3 = NULL;
-	struct mosquitto *output4 = NULL;
-	struct mosquitto *output5 = NULL;
+
+	struct mosquitto *mqtt_array[NUM_OF_OUTPUTS];
 
 	/*Init*/
 	mosquitto_lib_init();
 
-	output1 = mosquitto_new(NULL, clean_session, NULL);
-		if(!output1){
-			fprintf(stderr, "Error: Out of memory1.\n");
+	for(count=0;count < NUM_OF_OUTPUTS;count++)
+	{
+		mqtt_array[count] = mosquitto_new(NULL, clean_session, NULL);
+		if(!mqtt_array[count])
+		{
+			fprintf(stderr, "Error: Out of memory on %u.\n", count);
 			return 1;
 		}
+	}
 
-	output2 = mosquitto_new(NULL, clean_session, NULL);
-		if(!output2){
-			fprintf(stderr, "Error: Out of memory2.\n");
-			return 1;
-		}
-
-	output3 = mosquitto_new(NULL, clean_session, NULL);
-		if(!output2){
-			fprintf(stderr, "Error: Out of memory3.\n");
-			return 1;
-		}
-
-    output4 = mosquitto_new(NULL, clean_session, NULL);
-		if(!output3){
-			fprintf(stderr, "Error: Out of memory4.\n");
-			return 1;
-		}
-
-	 output5 = mosquitto_new(NULL, clean_session, NULL);
-		if(!output3){
-			fprintf(stderr, "Error: Out of memory5.\n");
-			return 1;
-		}
+	//TODO: Read XML file with information about mqtt channel subscribe and data to be written out to transmitter
+	//FIXME: Set this to be smart and can be build using iterativ process
 
 	//mosquitto_log_callback_set(output1, my_log_callback); //Does not need this one for now
-	mosquitto_connect_callback_set(output1, output1_connect_callback);
-	mosquitto_message_callback_set(output1, output1_message_callback);
-	mosquitto_subscribe_callback_set(output1, output1_subscribe_callback);
 
-	mosquitto_connect_callback_set(output2, output2_connect_callback);
-	mosquitto_message_callback_set(output2, output2_message_callback);
-	mosquitto_subscribe_callback_set(output2, output2_subscribe_callback);
+	mosquitto_connect_callback_set(mqtt_array[0], output1_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[0], output1_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[0], output1_subscribe_callback);
 
-	mosquitto_connect_callback_set(output3, output3_connect_callback);
-	mosquitto_message_callback_set(output3, output3_message_callback);
-	mosquitto_subscribe_callback_set(output3, output3_subscribe_callback);
+	mosquitto_connect_callback_set(mqtt_array[1], output2_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[1], output2_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[1], output2_subscribe_callback);
 
-	mosquitto_connect_callback_set(output4, output4_connect_callback);
-	mosquitto_message_callback_set(output4, output4_message_callback);
-	mosquitto_subscribe_callback_set(output4, output4_subscribe_callback);
+	mosquitto_connect_callback_set(mqtt_array[2], output3_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[2], output3_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[2], output3_subscribe_callback);
 
-	mosquitto_connect_callback_set(output5, output5_connect_callback);
-	mosquitto_message_callback_set(output5, output5_message_callback);
-	mosquitto_subscribe_callback_set(output5, output5_subscribe_callback);
+	mosquitto_connect_callback_set(mqtt_array[3], output4_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[3], output4_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[3], output4_subscribe_callback);
 
+	mosquitto_connect_callback_set(mqtt_array[4], output5_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[4], output5_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[4], output5_subscribe_callback);
 
-	if(mosquitto_connect(output1, host, port, keepalive)){
-		fprintf(stderr, "Unable to connect.\n");
-		return 1;
-	}
-
-	if(mosquitto_connect(output2, host, port, keepalive)){
-		fprintf(stderr, "Unable to connect.\n");
-		return 1;
-	}
-
-	if(mosquitto_connect(output3, host, port, keepalive)){
-		fprintf(stderr, "Unable to connect.\n");
-		return 1;
-	}
-
-	if(mosquitto_connect(output4, host, port, keepalive)){
-		fprintf(stderr, "Unable to connect.\n");
-		return 1;
-	}
-
-	if(mosquitto_connect(output5, host, port, keepalive)){
-		fprintf(stderr, "Unable to connect.\n");
-		return 1;
+	for(count=0;count<NUM_OF_OUTPUTS;count++)
+	{
+		if(mosquitto_connect(mqtt_array[count], host, port, keepalive)){
+			fprintf(stderr, "Unable to connect.\n");
+			return 1;
+		}
 	}
 
 	while(1)
 	{
-		mosquitto_loop(output1, -1, 1);
-		mosquitto_loop(output2, -1, 1);
-		mosquitto_loop(output3, -1, 1);
-		mosquitto_loop(output4, -1, 1);
-		mosquitto_loop(output5, -1, 1);
+		for(count=0;count<NUM_OF_OUTPUTS;count++)
+		{
+			mosquitto_loop(mqtt_array[count], -1, 1);
+		}
 		usleep(50000);		//sleep for 50ms to catch the breath
 	}
 
-//	mosquitto_loop_forever(mosq, -1, 1);
-
-
-	mosquitto_destroy(output1);
-	mosquitto_destroy(output2);
-	mosquitto_destroy(output3);
-	mosquitto_destroy(output4);
-	mosquitto_destroy(output5);
+	for(count=0;count<NUM_OF_OUTPUTS;count++)
+	{
+		mosquitto_destroy(mqtt_array[count]);
+	}
 
 	mosquitto_lib_cleanup();
 	return 0;
