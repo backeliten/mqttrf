@@ -10,7 +10,41 @@
 #define 	PORT1_ON		"A1E"
 #define 	PORT1_OFF		"A0E"
 
-#define 	NUM_OF_OUTPUTS	10
+#define 	PORT2_ON		"B1E"
+#define 	PORT2_OFF		"B0E"
+
+#define 	PORT3_ON		"C1E"
+#define 	PORT3_OFF		"C0E"
+
+#define 	PORT4_ON		"D1E"
+#define 	PORT4_OFF		"D0E"
+
+#define 	PORT5_ON		"E1E"
+#define 	PORT5_OFF		"E0E"
+
+#define 	PORT6_ON		"F1E"
+#define 	PORT6_OFF		"F0E"
+
+#define 	PORT7_ON		"G1E"
+#define 	PORT7_OFF		"G0E"
+
+#define 	PORT8_ON		"H1E"
+#define 	PORT8_OFF		"H0E"
+
+#define 	PORT9_ON		"I1E"
+#define 	PORT9_OFF		"I0E"
+
+#define 	PORT10_ON		"J1E"
+#define 	PORT10_OFF		"J0E"
+
+#define 	PORT11_ON		"K1E"
+#define 	PORT11_OFF		"K0E"
+
+#define		SERIAL_PORT		"/dev/ttyUSB0"
+
+#define 	MQQT_SERVER		"192.168.0.6"
+
+#define 	NUM_OF_OUTPUTS	11
 
 /*FUNCTIONS DECLARE*/
 
@@ -38,6 +72,30 @@ void output5_message_callback(struct mosquitto *mosq, void *userdata, const stru
 void output5_connect_callback(struct mosquitto *mosq, void *userdata, int result);
 void output5_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
 
+void output6_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output6_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output6_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
+void output7_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output7_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output7_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
+void output8_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output8_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output8_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
+void output9_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output9_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output9_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
+void output10_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output10_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output10_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
+void output11_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message);
+void output11_connect_callback(struct mosquitto *mosq, void *userdata, int result);
+void output11_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos);
+
 //void my_log_callback(struct mosquitto *mosq, void *userdata, int level, const char *str);
 
 /*FUNCTIONS*/
@@ -52,16 +110,16 @@ void output1_message_callback(struct mosquitto *mosq, void *userdata, const stru
 		value = *(char*)message->payload;
 
 		int fd;
-		fd=OpenToSerial("/dev/ttyS0");
+		fd=OpenToSerial(SERIAL_PORT);
 		usleep(50000);
 		if(value == '1')
 		{
-			WriteToSerial(fd, "A1E");
+			WriteToSerial(fd, PORT1_ON);
 			printf("Set output A\n");
 		}
 		if(value == '0')
 		{
-			WriteToSerial(fd, "A0E");
+			WriteToSerial(fd, PORT1_OFF);
 			printf("Clear output A\n");
 		}
 		//usleep(600000);
@@ -84,16 +142,16 @@ void output2_message_callback(struct mosquitto *mosq, void *userdata, const stru
 		value = *(char*)message->payload;
 
 		int fd;
-		fd=OpenToSerial("/dev/ttyS0");
+		fd=OpenToSerial(SERIAL_PORT);
 		usleep(50000);
 		if(value == '1')
 		{
-			WriteToSerial(fd, "B1E");
+			WriteToSerial(fd, PORT2_ON);
 			printf("Set output B\n");
 		}
 		if(value == '0')
 		{
-			WriteToSerial(fd, "B0E");
+			WriteToSerial(fd, PORT2_OFF);
 			printf("Clear output B\n");
 		}
 		//usleep(600000);
@@ -114,16 +172,16 @@ void output3_message_callback(struct mosquitto *mosq, void *userdata, const stru
 		value = *(char*)message->payload;
 
 		int fd;
-		fd=OpenToSerial("/dev/ttyS0");
+		fd=OpenToSerial(SERIAL_PORT);
 		usleep(50000);
 		if(value == '1')
 		{
-			WriteToSerial(fd, "C1E");
+			WriteToSerial(fd, PORT3_ON);
 			printf("Set output C\n");
 		}
 		if(value == '0')
 		{
-			WriteToSerial(fd, "C0E");
+			WriteToSerial(fd, PORT3_OFF);
 			printf("Clear output C\n");
 		}
 		//usleep(600000);
@@ -143,16 +201,16 @@ void output4_message_callback(struct mosquitto *mosq, void *userdata, const stru
 		value = *(char*)message->payload;
 
 		int fd;
-		fd=OpenToSerial("/dev/ttyS0");
+		fd=OpenToSerial(SERIAL_PORT);
 		usleep(50000);
 		if(value == '1')
 		{
-			WriteToSerial(fd, "D1E");
+			WriteToSerial(fd, PORT4_ON);
 			printf("Set output D\n");
 		}
 		if(value == '0')
 		{
-			WriteToSerial(fd, "D0E");
+			WriteToSerial(fd, PORT4_OFF);
 			printf("Clear output D\n");
 		}
 		//usleep(600000);
@@ -173,16 +231,196 @@ void output5_message_callback(struct mosquitto *mosq, void *userdata, const stru
 		value = *(char*)message->payload;
 
 		int fd;
-		fd=OpenToSerial("/dev/ttyS0");
+		fd=OpenToSerial(SERIAL_PORT);
 		usleep(50000);
 		if(value == '1')
 		{
-			WriteToSerial(fd, "F1E");
+			WriteToSerial(fd, PORT5_ON);
 			printf("Set output F\n");
 		}
 		if(value == '0')
 		{
-			WriteToSerial(fd, "F0E");
+			WriteToSerial(fd, PORT5_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output6_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT6_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT6_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output7_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT7_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT7_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output8_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT8_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT8_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output9_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT9_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT9_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output10_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT10_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT10_OFF);
+			printf("Clear output F\n");
+		}
+		//usleep(600000);
+		//ReadFromSerial(fd);
+		close(fd);
+	}else{
+		printf("%s (null)\n", message->topic);
+	}
+	fflush(stdout);
+}
+
+void output11_message_callback(struct mosquitto *mosq, void *userdata, const struct mosquitto_message *message)
+{
+	if(message->payloadlen){
+		printf("%s %s\n", (char *)message->topic, (char *)message->payload);
+
+		char value = 0;
+		value = *(char*)message->payload;
+
+		int fd;
+		fd=OpenToSerial(SERIAL_PORT);
+		usleep(50000);
+		if(value == '1')
+		{
+			WriteToSerial(fd, PORT11_ON);
+			printf("Set output F\n");
+		}
+		if(value == '0')
+		{
+			WriteToSerial(fd, PORT11_OFF);
 			printf("Clear output F\n");
 		}
 		//usleep(600000);
@@ -249,6 +487,72 @@ void output5_connect_callback(struct mosquitto *mosq, void *userdata, int result
 	}
 }
 
+void output6_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output6", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
+void output7_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output7", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
+void output8_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output8", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
+void output9_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output9", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
+void output10_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output10", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
+void output11_connect_callback(struct mosquitto *mosq, void *userdata, int result)
+{
+	int i;		//Didnt work to use subscribe on two channels, we got a nasty race condition, so that messages was not arrived.
+	if(!result){
+		/* Subscribe to broker information topics on successful connect. */
+		mosquitto_subscribe(mosq, NULL, "command/output11", 2);
+	}else{
+		fprintf(stderr, "Connect failed\n");
+	}
+}
+
 void output1_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
 {
 	int i;
@@ -304,6 +608,72 @@ void output5_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid,
 	printf("\n");
 }
 
+void output6_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
+void output7_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
+void output8_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
+void output9_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
+void output10_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
+void output11_subscribe_callback(struct mosquitto *mosq, void *userdata, int mid, int qos_count, const int *granted_qos)
+{
+	int i;
+
+	printf("Subscribed (mid: %d): %d", mid, granted_qos[0]);
+	for(i=1; i<qos_count; i++){
+		printf(", %d", granted_qos[i]);
+	}
+	printf("\n");
+}
+
 /*
 void my_log_callback(struct mosquitto *mosq, void *userdata, int level, const char *str)
 {
@@ -317,7 +687,7 @@ int main(int argc, char *argv[])
 
 	int i;
 	int count = 0;					//Used for counting
-	char *host = "localhost";
+	char *host = MQQT_SERVER;
 	int port = 1883;
 	int keepalive = 60;
 	bool clean_session = true;
@@ -362,6 +732,34 @@ int main(int argc, char *argv[])
 	mosquitto_message_callback_set(mqtt_array[4], output5_message_callback);
 	mosquitto_subscribe_callback_set(mqtt_array[4], output5_subscribe_callback);
 
+	mosquitto_connect_callback_set(mqtt_array[5], output6_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[5], output6_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[5], output6_subscribe_callback);
+
+	mosquitto_connect_callback_set(mqtt_array[6], output7_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[6], output7_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[6], output7_subscribe_callback);
+
+	mosquitto_connect_callback_set(mqtt_array[7], output8_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[7], output8_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[7], output8_subscribe_callback);
+
+	mosquitto_connect_callback_set(mqtt_array[8], output9_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[8], output9_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[8], output9_subscribe_callback);
+
+	mosquitto_connect_callback_set(mqtt_array[9], output10_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[9], output10_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[9], output10_subscribe_callback);
+
+	mosquitto_connect_callback_set(mqtt_array[10], output11_connect_callback);
+	mosquitto_message_callback_set(mqtt_array[10], output11_message_callback);
+	mosquitto_subscribe_callback_set(mqtt_array[10], output11_subscribe_callback);
+
+//	mosquitto_connect_callback_set(mqtt_array[11], output5_connect_callback);
+//	mosquitto_message_callback_set(mqtt_array[11], output5_message_callback);
+//	mosquitto_subscribe_callback_set(mqtt_array[11], output5_subscribe_callback);
+
 	for(count=0;count<NUM_OF_OUTPUTS;count++)
 	{
 		if(mosquitto_connect(mqtt_array[count], host, port, keepalive)){
@@ -376,7 +774,7 @@ int main(int argc, char *argv[])
 		{
 			mosquitto_loop(mqtt_array[count], -1, 1);
 		}
-		usleep(50000);		//sleep for 50ms to catch the breath
+		usleep(10000);		//sleep for 10ms to catch the breath
 	}
 
 	for(count=0;count<NUM_OF_OUTPUTS;count++)
